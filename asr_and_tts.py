@@ -1,16 +1,15 @@
-import torch
-import librosa
-from transformers import WhisperProcessor, WhisperForConditionalGeneration
-from gtts import gTTS
+import io
 import os
-import sys
 import re
 from functools import lru_cache
-from playsound3 import playsound
+
+from gtts import gTTS
 
 
 @lru_cache(maxsize=1)
 def _load_whisper_model():
+    from transformers import WhisperProcessor, WhisperForConditionalGeneration
+
     print("Loading Multilingual ASR Model (OpenAI Whisper)...")
     processor = WhisperProcessor.from_pretrained("openai/whisper-small")
     model = WhisperForConditionalGeneration.from_pretrained("openai/whisper-small")
@@ -19,6 +18,9 @@ def _load_whisper_model():
 
 
 def run_multilingual_asr(wav_path):
+    import librosa
+    import torch
+
     # Reuse the model between quiz questions instead of reloading it each time.
     processor, model = _load_whisper_model()
     print(f"Loading audio from {wav_path}...")
@@ -44,10 +46,18 @@ def run_multilingual_asr(wav_path):
     return transcription, detected_lang
 
 
+def synthesize_speech(text, lang_code='en'):
+    buffer = io.BytesIO()
+    gTTS(text=text, lang=lang_code, slow=False).write_to_fp(buffer)
+    return buffer.getvalue()
+
+
 def run_multilingual_tts(text, lang_code='en', output_path="response.wav"):
+    from playsound3 import playsound
+
     print(f"Generating TTS response in language code '{lang_code}'...")
-    tts = gTTS(text=text, lang=lang_code, slow=False)
-    tts.save(output_path)
+    with open(output_path, "wb") as f:
+        f.write(synthesize_speech(text, lang_code))
     print(f"Playing spoken answer from '{output_path}'...")
     playsound(output_path, block=True)
     return output_path

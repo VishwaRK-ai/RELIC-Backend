@@ -22,7 +22,7 @@ from langchain_huggingface import HuggingFaceEmbeddings
 # =====================================================================
 
 # Update this link whenever your Colab instance restarts!
-COLAB_API_URL = "https://bc58e19a8bd48db27f.gradio.live" 
+COLAB_API_URL = "https://53009bcd71fd65cbac.gradio.live"
 client = Client(COLAB_API_URL)
 
 # In-memory storage (Replace with Redis/PostgreSQL in production)

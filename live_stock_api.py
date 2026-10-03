@@ -1,5 +1,17 @@
 import yfinance as yf
 
+TICKER_MAP = {
+    "reliance": "RELIANCE.NS",
+    "tata motors": "TATAMOTORS.NS",
+    "zomato": "ZOMATO.NS",
+    "suzlon": "SUZLON.NS",
+}
+
+
+def extract_ticker(text):
+    text = text.lower()
+    return next((ticker for name, ticker in TICKER_MAP.items() if name in text), None)
+
 def get_live_stock_data(ticker_symbol):
     try:
         # .NS is the suffix for National Stock Exchange of India (NSE)
