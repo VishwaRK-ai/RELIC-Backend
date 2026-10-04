@@ -23,7 +23,7 @@ def detect_fraud_flags(text):
     return [flag for flag in red_flags if flag.lower() in text_lower]
 
 
-# --- 2. API ENTRY POINT (used by main.py) ---
+# --- 2. API ENTRY POINT (used by main1.py) ---
 def analyze_image(img):
     clean_text = " ".join(pytesseract.image_to_string(img).split())
     if not clean_text:

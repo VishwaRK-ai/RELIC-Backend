@@ -44,4 +44,4 @@ def check_volatility(ticker_symbol="RELIANCE.NS", drop_threshold=-2.0, demo_mode
 # Run the test
 # Change demo_mode=False during actual weekday market hours!
 if __name__ == "__main__":
-    check_volatility(ticker_symbol="RELIANCE.NS", drop_threshold=-2.0, demo_mode=True)#change demo mode to false
+    check_volatility(ticker_symbol="RELIANCE.NS", drop_threshold=-2.0, demo_mode=False)#change demo mode to false
